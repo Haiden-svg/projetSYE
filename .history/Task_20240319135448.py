@@ -1,4 +1,3 @@
-import networkx as nx
 class Task:
     name = ""
     reads = []
