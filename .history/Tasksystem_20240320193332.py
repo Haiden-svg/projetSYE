@@ -3,8 +3,8 @@ from Task import *
 from Task import *
 class Tasksystem:
     tasks = []
-    dico = {}
+    dictionary = {}
 
-    def __init__(self, tks, dico):
+    def __init__(self, tks, dictionary):
         self.tasks = tks
-        self.dico = dico
+        self.dictionary = dictionary

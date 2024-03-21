@@ -20,14 +20,10 @@ class Main:
     # Add edges to the graph
     
     for task in ts.tasks:
-
-        if ts.dico[task.name]==[]:
-            continue
-        else:
-            for ts.dico[task.name] in ts.dico:
-                G.add_edge(task.name,ts.dico[task.name])
+        for dico in   ts:
+            G.add_edge(dico, task.name)
     # Draw the graph
-    G.reverse()
+    print(ts.dictionary["t4"])
     nx.draw(G, with_labels=True, node_color='lightblue', edge_color='gray', font_weight='bold')
 
     

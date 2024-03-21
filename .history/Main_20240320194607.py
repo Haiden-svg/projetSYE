@@ -14,8 +14,8 @@ class Main:
     G = nx.DiGraph()
 
     # Add nodes to the graph
-    for task in ts.tasks:
-        G.add_node(task.name)
+    ##for task in ts.tasks:
+      #  G.add_node(task.name)
 
     # Add edges to the graph
     

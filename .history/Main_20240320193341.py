@@ -25,9 +25,9 @@ class Main:
             continue
         else:
             for ts.dico[task.name] in ts.dico:
-                G.add_edge(task.name,ts.dico[task.name])
+                G.add_edge(ts.dico[task.name], task.name)
     # Draw the graph
-    G.reverse()
+    print(ts.dictionary["t4"])
     nx.draw(G, with_labels=True, node_color='lightblue', edge_color='gray', font_weight='bold')
 
     

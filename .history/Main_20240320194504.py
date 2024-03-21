@@ -27,7 +27,6 @@ class Main:
             for ts.dico[task.name] in ts.dico:
                 G.add_edge(task.name,ts.dico[task.name])
     # Draw the graph
-    G.reverse()
     nx.draw(G, with_labels=True, node_color='lightblue', edge_color='gray', font_weight='bold')
 
     
