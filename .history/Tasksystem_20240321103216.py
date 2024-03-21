@@ -18,8 +18,6 @@ class Tasksystem:
                 if t == []:
                     continue    
                 G.add_edge(t.name,task.name)
-        #G.reverse()
+        G.reverse()
         nx.draw(G, with_labels=True, node_color='lightblue', edge_color='gray', font_weight='bold')
         plt.show()
-    def getDependecies(self,String):
-        return self.dico[String]

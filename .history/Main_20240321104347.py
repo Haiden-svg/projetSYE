@@ -12,3 +12,6 @@ class Main:
     ts = Tasksystem([t1, t2, t3, t4], dico)
     # Create a directed graph from the tasksystem
     ts.draw()
+    value=ts.getDependecies("t4")
+    for i in value:
+        print(i.name)
