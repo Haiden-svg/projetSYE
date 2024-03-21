@@ -9,8 +9,7 @@ class Task:
     writes = []
     run = None
 
-    def __init__(self,nom, lis, ecrit):
-        self.name = nom
-        self.reads = lis
-        self.writes = ecrit
-        self.run = None
+    def __init__(nom, lis, ecrit):
+        name = nom
+        reads = lis
+        writes = ecrit

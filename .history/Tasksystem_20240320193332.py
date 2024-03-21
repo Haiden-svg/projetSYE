@@ -1,0 +1,10 @@
+from Task import *
+from Task import *
+from Task import *
+class Tasksystem:
+    tasks = []
+    dictionary = {}
+
+    def __init__(self, tks, dictionary):
+        self.tasks = tks
+        self.dictionary = dictionary

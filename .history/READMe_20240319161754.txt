@@ -6,12 +6,3 @@ Développer une libraire en Python pour automatiser la parallélisation maximale
 de précédence,
 3. exécuter le système de tâches en parallèle, tout en respectant les contraintes de
 précédence.
-
-
-
-Pendant la création du code pour Graphics , j'ai du utiliser la librairie
-import networkx as nx
-import matplotlib.pyplot as plt
-from Graphics import Graphics
-
-donc j'ai du utiliser des outils librairie tierce pour le deroulement du projet
