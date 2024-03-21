@@ -9,10 +9,4 @@ précédence.
 
 
 
-Pendant la création du code pour Graphics , j'ai du utiliser la librairie networkx , threading , semaphore 
-
-creation de deux classe :
-    -Task une classe pour les taches a effectuer  
-    -TaskSytem une classe pour rassembler les taches et en creer une systeme
-    -Main pour exécuter des exemples pour la libraire
-
+Pendant la création du code pour Graphics , j'ai du utiliser la librairie networkx , 

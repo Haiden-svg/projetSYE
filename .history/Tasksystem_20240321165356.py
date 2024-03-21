@@ -1,16 +1,14 @@
 from Task import *
 from threading import Semaphore, Thread
 ##############################################
-#args: tks: list of tasks, dico: dictionnary of dependencies
 class Tasksystem:
     tasks = []
     dico = {}
-#constructor#
+##############################################
     def __init__(self, tks, dico):
         self.tasks = tks
         self.dico = dico
 ##############################################
-        # Draw the graph of the task system
     def draw(self):
         import networkx as nx
         import matplotlib.pyplot as plt
@@ -25,11 +23,9 @@ class Tasksystem:
         nx.draw(G, with_labels=True, node_color='lightblue', edge_color='black', font_weight='bold')
         plt.show()
 ##############################################
-        #get the dependencies of a task
     def getDependecies(self,String):
         return self.dico[String]
 ##############################################   
-        # Run the tasks in the tasksystem sequentially
     def runseq(self):
         x=0
         sem = Semaphore(1)
@@ -54,7 +50,6 @@ class Tasksystem:
         for task in effectued:
             print(task.name)
 ##############################################
-    # Run the tasks in the tasksystem with parallelism but elementary function
     def runsem(self, toeffectue):
         len = toeffectue.__len__()
         sem = Semaphore(len)
@@ -62,8 +57,7 @@ class Tasksystem:
             sem.acquire()
             Thread(target=task.run(), args=(task,)).start()
             sem.release()
-##############################################   
-            # Run the tasks in the tasksystem with parallelism 
+##############################################    
     def run(self):
         x = 0
         sem = Semaphore(3)

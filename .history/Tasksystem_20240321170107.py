@@ -29,7 +29,6 @@ class Tasksystem:
     def getDependecies(self,String):
         return self.dico[String]
 ##############################################   
-        # Run the tasks in the tasksystem sequentially
     def runseq(self):
         x=0
         sem = Semaphore(1)
@@ -54,7 +53,6 @@ class Tasksystem:
         for task in effectued:
             print(task.name)
 ##############################################
-    # Run the tasks in the tasksystem with parallelism but elementary function
     def runsem(self, toeffectue):
         len = toeffectue.__len__()
         sem = Semaphore(len)
@@ -62,8 +60,7 @@ class Tasksystem:
             sem.acquire()
             Thread(target=task.run(), args=(task,)).start()
             sem.release()
-##############################################   
-            # Run the tasks in the tasksystem with parallelism 
+##############################################    
     def run(self):
         x = 0
         sem = Semaphore(3)

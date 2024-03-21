@@ -54,7 +54,7 @@ class Tasksystem:
         for task in effectued:
             print(task.name)
 ##############################################
-    # Run the tasks in the tasksystem with parallelism but elementary function
+    # Run the tasks in the tasksystem with parallelism
     def runsem(self, toeffectue):
         len = toeffectue.__len__()
         sem = Semaphore(len)

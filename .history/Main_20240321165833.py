@@ -1,4 +1,5 @@
-#modules
+import networkx as nx
+import matplotlib.pyplot as plt
 from Task import *
 from Tasksystem import *
 ##############################################

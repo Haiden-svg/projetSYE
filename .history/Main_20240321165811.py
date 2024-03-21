@@ -1,10 +1,10 @@
-#modules
+import networkx as nx
+import matplotlib.pyplot as plt
 from Task import *
 from Tasksystem import *
 ##############################################
 class Main:
     ##############################################
-    # Run functions #
     def run1():
         print("run 1 done")
     def run2():
@@ -14,13 +14,11 @@ class Main:
     def run4():
         print("run 4 done")
     ##############################################
-    # Tasks #
     t1 = Task("t1", ["e"], ["x"])
     t2 = Task("t2", ["x"], ["y"])
     t3 = Task("t3", ["y"], ["a"])
     t4 = Task("t4", ["y"], ["z"])
     ##############################################
-    # Run functions association #
     t1.run = run1
     t2.run = run2
     t3.run = run3
