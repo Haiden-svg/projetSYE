@@ -1,7 +1,9 @@
 from Task import *
 from threading import Semaphore, Thread
 import networkx as nx
+import random
 import matplotlib.pyplot as plt
+from copy import deepcopy
 ##############################################
 #args: tks: list of tasks, dico: dictionnary of dependencies
 class Tasksystem:
@@ -9,6 +11,24 @@ class Tasksystem:
     def __init__(self, tks, dico):
         self.tasks = tks
         self.dico = dico
+        self.verify_unique_task_names()
+        self.verify_task_existence_in_dependencies()
+##############################################
+        #Verification des noms des tâches dupliqués
+    def verify_unique_task_names(self):
+        task_names = [task.name for task in self.tasks]
+        if len(task_names) != len(set(task_names)):
+            raise ValueError("Error: Task names must be unique.")
+##############################################
+        #Verification de l'existence des noms de tâches dans le dictionnaire de précédence
+    def verify_task_existence_in_dependencies(self):
+        task_names = set(task.name for task in self.tasks)
+        for task_name, deps in self.dico.items():  # Parcourir les éléments du dictionnaire
+            if task_name not in task_names:
+                raise ValueError(f"Erreur : La tâche '{task_name}' mentionnée dans les dépendances n'existe pas.")
+            for dep in deps:
+                if dep not in task_names:
+                    raise ValueError(f"Erreur : La tâche dépendante '{dep}' de '{task_name}' n'existe pas dans la liste des tâches.")
 ##############################################
         # Draw the graph of the task system
     def draw(self):
@@ -133,4 +153,4 @@ class Tasksystem:
                     road[i+1].append(task)
                     linear.append(task)
         return road
-        
+    
