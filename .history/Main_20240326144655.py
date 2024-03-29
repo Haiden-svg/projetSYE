@@ -42,16 +42,17 @@ class Main:
     #dico={"t1": [], "t2": [t1], "t3": [t2], "t4": [t2]}
     ts = Tasksystem([t1, t2, t3, t4,t5,t6,t7], {})
     ts.dico = ts.createDep()
-    #test1=ts.getDependencie(t2)
-    #test3=test1[0]
-    #print(test3.name)
+    test=ts.getRoad()
+    test2=test[3]
+    for test in test2:
+        print(test.name)
     ##############################################
     # instruction #
     #road=ts.getDependencie(t4)
     #ts.run() # Run the tasks in the tasksystem with parallelism
     #ts.bernsteinIntoTasks() # Run the Bernstein test
     #ts.draw() # Draw the graph of the task system
-    ts.runseq() # Run the tasks in the tasksystem sequentially
+    #ts.runseq() # Run the tasks in the tasksystem sequentially
     #ts.getDependencies() # Get the dependencies of the task system
     ##############################################
 

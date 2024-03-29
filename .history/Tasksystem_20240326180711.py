@@ -27,16 +27,7 @@ class Tasksystem:
     def getDependeciesTS(self,task):
         return self.dico[task.name]        
     def getDependencie(self,task):
-        dependances = [[]]
-        x = 0
-        for road in self.runRoad():
-            dependances.append([])
-            dependances[x].extend(road)
-            x+=1
-
-            if task in road:
-                return road
-        return 0   
+        return 0    
 ##############################################   
         # Run the tasks in the tasksystem sequentially
     def runseq(self):

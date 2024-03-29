@@ -27,16 +27,7 @@ class Tasksystem:
     def getDependeciesTS(self,task):
         return self.dico[task.name]        
     def getDependencie(self,task):
-        dependances = [[]]
-        x = 0
-        for road in self.runRoad():
-            dependances.append([])
-            dependances[x].extend(road)
-            x+=1
-
-            if task in road:
-                return road
-        return 0   
+        return 0    
 ##############################################   
         # Run the tasks in the tasksystem sequentially
     def runseq(self):
@@ -90,7 +81,7 @@ class Tasksystem:
                 tasks.remove(task)  # Remove the task from the tasks list
             if all(task in effectued for task in self.tasks):
                 x=1
-###############################################   
+    
     def runRoad(self):
         x = 0
         y= 0
@@ -133,7 +124,23 @@ class Tasksystem:
         for task in self.tasks:
             dep[task.name] = self.checkdep(task)
         return dep
-##############################################
+    
+    def bernsteinIntoEachOver(self, tasks):
+        succed = []
+        tasksAlter = tasks.copy()
+        taskEffectued = []
+        failed = []
+        for task in tasksAlter:
+            for task2 in (task for task in tasksAlter if task not in taskEffectued):
+                if task.name == task2.name:
+                    continue
+                if task.bernstein(task2):
+                    succed.append(task)
+                else:
+                    failed.append(task) 
+            taskEffectued.append(task)
+        return succed, failed
+
     def bernsteinIntoEachOverTest(self, tasks):
         succed = []
         tasksAlter = tasks.copy()

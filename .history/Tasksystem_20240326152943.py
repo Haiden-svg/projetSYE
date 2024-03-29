@@ -27,16 +27,7 @@ class Tasksystem:
     def getDependeciesTS(self,task):
         return self.dico[task.name]        
     def getDependencie(self,task):
-        dependances = [[]]
-        x = 0
-        for road in self.runRoad():
-            dependances.append([])
-            dependances[x].extend(road)
-            x+=1
-
-            if task in road:
-                return road
-        return 0   
+        return 0    
 ##############################################   
         # Run the tasks in the tasksystem sequentially
     def runseq(self):
@@ -90,7 +81,7 @@ class Tasksystem:
                 tasks.remove(task)  # Remove the task from the tasks list
             if all(task in effectued for task in self.tasks):
                 x=1
-###############################################   
+    
     def runRoad(self):
         x = 0
         y= 0
@@ -104,10 +95,7 @@ class Tasksystem:
                 dependencies = self.getDependeciesTS(task)
                 if all(dep in effectued for dep in dependencies) or dependencies == []:
                     toeffectue.append(task)
-            if self.bernsteinIntoEachOverTest(toeffectue):
-                #print("Bernstein test passed")
-                road[y].extend(toeffectue)
-            #road = self.addToRoad(road, toeffectue, y)
+            road[y].append(toeffectue)
             y+=1
             for task in toeffectue:
                 effectued.append(task)
@@ -125,6 +113,7 @@ class Tasksystem:
             if task2.name != task.name:
             
                 if any(read in task2.writes for read in task.reads):
+                    print("!!!")
                     deplist.append(task2)   
         return deplist  
 ##############################################
@@ -133,8 +122,8 @@ class Tasksystem:
         for task in self.tasks:
             dep[task.name] = self.checkdep(task)
         return dep
-##############################################
-    def bernsteinIntoEachOverTest(self, tasks):
+    
+    def bernsteinIntoEachOver(self, tasks):
         succed = []
         tasksAlter = tasks.copy()
         taskEffectued = []
@@ -148,8 +137,23 @@ class Tasksystem:
                 else:
                     failed.append(task) 
             taskEffectued.append(task)
-        if failed == []:
-            return True
-        else:
-            return False
-##############################################
+        return succed, failed
+    
+    def getRoad(self):
+        road = [[]]
+        linear = []
+        toTest = self.tasks.copy()
+        index = self.tasks.__len__()
+        for task in self.tasks:
+            if self.getDependeciesTS(task) == []:
+                road[0].append(task)
+                linear.append(task)
+
+        for i in range(index):
+            road.append([])  # Add a new empty list for each iteration
+            for task in toTest:
+                if task not in linear and all(dep in linear for dep in self.getDependeciesTS(task)):
+                    road[i+1].append(task)
+                    linear.append(task)
+        return road
+        
