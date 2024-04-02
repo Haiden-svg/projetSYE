@@ -44,24 +44,37 @@ class Main:
     ##############################################
     # Task system #
     #dico={"t1": [], "t2": [t1], "t3": [t2], "t4": [t2]}
+
+    #runseq
     """
     ts = Tasksystem([t1, t2, t3, t4, t5, t6, t7], {}) 
     ts.dico = ts.createDep()
     ts.runseq()
     ts.draw()
     """
+
+    #run
     """
     ts = Tasksystem([t1, t2, t3, t4, t5, t6, t7], {}) 
     ts.dico = ts.createDep()
     ts.run()
     ts.draw()
     """
-    
+
+    #cout du parallelisme
+    """
     ts = Tasksystem([t1, t2, t3, t4, t5, t6, t7], {}) 
     ts.dico = ts.createDep()
     ts.parCost()
-    
+    """
 
+    #test ramdomisé de déterminisme
+    
+    ts = Tasksystem([t1, t2, t3, t4, t5, t6, t7], {}) 
+    ts.dico = ts.createDep()
+    ts.detTestRnd()
+    
+    
     #test=ts.getRoad()
     #test2=test[3][3]
     #print(test2.name)
@@ -74,12 +87,6 @@ class Main:
     #ts.runseq() # Run the tasks in the tasksystem sequentially
     #ts.getDependencies() # Get the dependencies of the task system
     ##############################################
-
-
-
-
-
-
 
 
     ##############################################
