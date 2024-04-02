@@ -48,9 +48,9 @@ class Main:
     ##############################################
     # instruction #
     #road=ts.getDependencie(t4)
-    #ts.run() # Run the tasks in the tasksystem with parallelism
+    ts.run() # Run the tasks in the tasksystem with parallelism
     #ts.bernsteinIntoTasks() # Run the Bernstein test
-    ts.draw() # Draw the graph of the task system
+    #ts.draw() # Draw the graph of the task system
     #ts.runseq() # Run the tasks in the tasksystem sequentially
     #ts.getDependencies() # Get the dependencies of the task system
     ##############################################

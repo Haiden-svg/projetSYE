@@ -172,8 +172,6 @@ class Tasksystem:
             taskEffectued.append(task)
         return succed, failed
     ##############################################
-    
-
     def getRoad(self):
         road = [[]]
         linear = []
