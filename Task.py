@@ -5,6 +5,7 @@ class Task:
     reads = []
     writes = []
     run = None
+    result = None
 
     # Constructor
     def __init__(self,nom, lis, ecrit):
@@ -12,6 +13,7 @@ class Task:
         self.reads = lis
         self.writes = ecrit
         self.run = None
+        self.result =None
         
     def bernstein(self, other_task):
     # Lecture-écriture exclusives

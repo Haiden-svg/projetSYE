@@ -51,6 +51,7 @@ class Main:
     #dico={"t1": [], "t2": [t1], "t3": [t2], "t4": [t2]}
     ts = Tasksystem([t1, t2, t3, t4, t5], {}) 
     ts.dico = ts.createDep()
+    ts.detTestRnd()
     #ts.parCost()
     #ts.parCost()
     ts.printRoad()
