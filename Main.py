@@ -64,12 +64,6 @@ class Main:
     ##############################################
 
 
-
-
-
-
-
-
     ##############################################
     # test Verification de l'existence des noms de tâches dans le dictionnaire de précédence
     #try:

@@ -3,32 +3,45 @@ from threading import Semaphore, Thread
 import networkx as nx
 import matplotlib.pyplot as plt
 import time
+import random
+import io
+import sys
 ##############################################
 #args: tks: list of tasks, dico: dictionnary of dependencies
 class Tasksystem:
-#constructor#
+        #constructor#
     def __init__(self, tks, dico):
         self.tasks = tks
         self.dico = dico
-        self.verify_unique_task_names()
-        self.verify_task_existence_in_dependencies()
+        self.verifyUniqueNames()
+        self.verifyTaskNameDep()
+
 ##############################################
-        #Verification des noms des tâches dupliqués
-    def verify_unique_task_names(self):
-        task_names = [task.name for task in self.tasks]
-        if len(task_names) != len(set(task_names)):
+        
+        # Checking for duplicate task names
+    def verifyUniqueNames(self):
+        task_names = []
+        for task in self.tasks:
+            task_names.append(task.name)
+        if len(task_names) != len(set(task_names)): # Check if the total number of names matches the number of unique names
             raise ValueError("Error: Task names must be unique.")
+        
 ##############################################
-        #Verification de l'existence des noms de tâches dans le dictionnaire de précédence
-    def verify_task_existence_in_dependencies(self):
-        task_names = set(task.name for task in self.tasks)
+        
+        # Checking the existence of task names in the dictionary
+    def verifyTaskNameDep(self):
+        task_names = set()
+        for task in self.tasks:
+            task_names.add(task.name)
         for task_name, deps in self.dico.items():  # Parcourir les éléments du dictionnaire
-            if task_name not in task_names:
+            if task_name not in task_names: 
                 raise ValueError(f"Erreur : La tâche '{task_name}' mentionnée dans les dépendances n'existe pas.")
             for dep in deps:
                 if dep not in task_names:
                     raise ValueError(f"Erreur : La tâche dépendante '{dep}' de '{task_name}' n'existe pas dans la liste des tâches.")
+                
 ##############################################
+                
         # Draw the graph of the task system
     def draw(self):
         G = nx.DiGraph()
@@ -41,8 +54,10 @@ class Tasksystem:
                 G.add_edge(t.name,task.name)
         nx.draw(G, with_labels=True, node_color='lightblue', edge_color='black', font_weight='bold')
         plt.show()
+
 ##############################################
-        #get the dependencies of a task
+        
+        # get the dependencies of a task
     def getDependeciesTS(self,task):
         return self.dico[task.name]        
     def getDependencie(self,task):
@@ -56,6 +71,7 @@ class Tasksystem:
             if task in road:
                 return road
         return 0   
+    
 ##############################################   
     def runseqelementary(self,road,sem):
         for task in road:
@@ -94,6 +110,7 @@ class Tasksystem:
     #     for task in effectued:
     #         print(task.name)  
 ##############################################
+            
     # Run the tasks in the tasksystem with parallelism but elementary function
     def runsem(self, toeffectue):
         sem = Semaphore(toeffectue.__len__())
@@ -106,6 +123,7 @@ class Tasksystem:
             sem.acquire()
             Thread(target=run_task, args=(task,)).start()
 ##############################################   
+            
             # Run the tasks in the tasksystem with parallelism 
     def run(self):
 
@@ -113,6 +131,7 @@ class Tasksystem:
         for road in tasksII:
             self.runsem(road)
 ###############################################   
+                
     def runRoad(self):
         x = 0
         y= 0
@@ -137,6 +156,7 @@ class Tasksystem:
             if all(task in effectued for task in self.tasks):
                 x=1
         return road
+    
 ##############################################    
                 # Bernstain test
  ##############################################   
@@ -176,6 +196,7 @@ class Tasksystem:
     ##############################################
         # Cout du parallelisme
     
+        # Cout du parallelisme
     def parCost(self, runs=10):
         # Mesurer le temps d'exécution parallèle
         count = 0
@@ -191,7 +212,7 @@ class Tasksystem:
         seq_times = []
         while count < runs:
             start = time.time()
-            self.runseq()  # Exécution séquentielle
+            self.runseq()  
             end = time.time()
             seq_times.append(end - start)  # Enregistrement du temps d'exécution
             count += 1  # Incrémentation du compteur
@@ -221,3 +242,75 @@ class Tasksystem:
         roads = self.runRoad()
         for road in roads:
             print([task.name for task in road])
+    #####################################
+        # Test Randomisé de déterministe 
+    
+
+    #methode 1
+
+    """
+    def detTestRnd(self, num_trials=10, num_executions=2):
+    # Identifier toutes les variables uniques impliquées
+        all_variables = set()
+        for task in self.tasks:
+            all_variables.update(task.reads)
+            all_variables.update(task.writes)
+
+    # Définir une fonction pour générer un jeu de valeurs aléatoires pour les variables
+        def generate_random_values():
+            return {var: random.randint(1, 100) for var in all_variables}
+
+    # Fonction pour exécuter le système et collecter les résultats
+        def execute_and_collect():
+            self.run()
+            return {var: globals()[var] for var in all_variables if var in globals()}
+
+    # Tester avec num_trials jeux de données
+        for _ in range(num_trials):
+            dataset = generate_random_values()
+
+        # Initialiser les variables globales
+            for var, value in dataset.items():
+                globals()[var] = value
+
+        # Exécuter le système num_executions fois et collecter les résultats
+            results = []
+            for _ in range(num_executions):
+            # Réinitialiser les variables avant chaque exécution
+                for var, value in dataset.items():
+                    globals()[var] = value
+
+                result = execute_and_collect()
+                results.append(result)
+
+        # Vérifier la cohérence des résultats
+            if not all(result == results[0] for result in results):
+                print("Non-déterminisme détecté avec le jeu de données :", dataset)
+                return False
+
+        print("Le système est déterministe pour tous les jeux de données testés.")
+        return True"""
+    
+
+
+    #methode 2
+    
+    """
+    def detTestRnd(self, num_trials=10):
+        for _ in range(num_trials):
+            results = []
+            for _ in range(2):  # Deux exécutions pour comparer
+                # Rediriger la sortie standard pour capturer les impressions
+                capturedOutput = io.StringIO()
+                sys.stdout = capturedOutput
+                self.run()  # Exécute les tâches
+                sys.stdout = sys.__stdout__  # Restaurer la sortie standard
+                results.append(capturedOutput.getvalue())
+
+            # Vérifier si les résultats des deux exécutions sont identiques
+            if results[0] != results[1]:
+                print("Non-déterminisme détecté")
+                return False
+
+        print("Le système est déterministe.")
+        return True"""
