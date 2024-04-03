@@ -32,8 +32,6 @@ class Main:
                     ts.run()
                     intTable[0] = [a,b,c,d,e]
                 else:  
-                    a,b,c,d,e=index
-                    ts.run()
                     intTable[1]=[a,b,c,d,e]
 
             if intTable[0] != intTable[1]:

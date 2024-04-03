@@ -103,6 +103,8 @@ class Tasksystem:
             print("Testing for change... for",a,b,c,d,e)      
             for __ in range(2):
                 print("les valeurs a compter=",a,b,c,d,e)
+                global a
+                a=a
                 self.run()
                 if __ == 0:
                     intTable[0] = [a,b,c,d,e]

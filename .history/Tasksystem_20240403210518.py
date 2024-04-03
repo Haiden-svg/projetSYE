@@ -86,7 +86,7 @@ class Tasksystem:
 ##############################################
     def detTestRnd(self,num_trials=3):
         intTable = [[]]
-        intTable.append([])
+        inttostack = []
         for _ in range(num_trials):
             global a
             a = random.randint(1, 100)
@@ -99,15 +99,25 @@ class Tasksystem:
             global e
             e = random.randint(1, 100)
                     # Rest of the code...
+            inttostack=[a,b,c,d,e]
+            print("Testing for change... for", inttostack)      
             print("-----------------------------------")  
-            print("Testing for change... for",a,b,c,d,e)      
             for __ in range(2):
-                print("les valeurs a compter=",a,b,c,d,e)
+                
+                a = inttostack[0]
+                
+                b = inttostack[1]
+                
+                c = inttostack[2]
+                
+                d = inttostack[3]
+                
+                e = inttostack[4]
                 self.run()
-                if __ == 0:
+                if intTable == [[]]:
                     intTable[0] = [a,b,c,d,e]
                 else:  
-                    intTable[1]=[a,b,c,d,e]
+                    intTable.append([a,b,c,d,e])
 
             if intTable[0] != intTable[1]:
                 print("Non-determinism detected")

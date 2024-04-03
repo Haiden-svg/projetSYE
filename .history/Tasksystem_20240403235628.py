@@ -99,10 +99,12 @@ class Tasksystem:
             global e
             e = random.randint(1, 100)
                     # Rest of the code...
+            ai=a
             print("-----------------------------------")  
             print("Testing for change... for",a,b,c,d,e)      
             for __ in range(2):
                 print("les valeurs a compter=",a,b,c,d,e)
+                a=ai
                 self.run()
                 if __ == 0:
                     intTable[0] = [a,b,c,d,e]

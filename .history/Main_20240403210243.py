@@ -6,50 +6,12 @@ import time
 class Main:
     global a,b,c,d,e
     a,b,c,d,e=0,0,0,0,0
-    ##############################################
-    def detTestRnd(ts,num_trials=3):
-        intTable = [[]]
-        index=[]
-        intTable.append([])
-        for _ in range(num_trials):
-            global a
-            a = random.randint(1, 100)
-            global b
-            b = random.randint(1, 100)
-            global c
-            c = random.randint(1, 100)
-            global d
-            d = random.randint(1, 100)
-            global e
-            e = random.randint(1, 100)
-                    # Rest of the code...
-            index=[a,b,c,d,e]
-            print("-----------------------------------")  
-            print("Testing for change... for",a,b,c,d,e)      
-            for __ in range(2):
-                print("les valeurs a compter=",a,b,c,d,e)
-                if __ == 0:
-                    ts.run()
-                    intTable[0] = [a,b,c,d,e]
-                else:  
-                    a,b,c,d,e=index
-                    ts.run()
-                    intTable[1]=[a,b,c,d,e]
-
-            if intTable[0] != intTable[1]:
-                print("Non-determinism detected")
-                print(intTable[0] ,"and", intTable[1])
-                return False
-            print("Compare",intTable[0] ,"and", intTable[1])
-        print("The system is deterministic.")
-        print("-----------------------------------")
-        return True
-
+    
     ##############################################
     # Run functions #
     def run1():
         global a
-        a=a
+        a=a+13
 
     def run2():
         global b
@@ -67,7 +29,7 @@ class Main:
     def run5():
         global e
         e=e+b
-        print(e, " = ", b,"+",e)
+        print(e, " = ", b,"+",e, " + 2")
     ##############################################
     # Tasks #
     t1 = Task("t1", [], ["a"])
@@ -91,7 +53,7 @@ class Main:
     #ts.parCost()
     #ts.parCost()
     ts.printRoad()
-    detTestRnd(ts)
+    ts.detTestRnd()
     #test=ts.getRoad()
     #test2=test[3][3]
     #print(test2.name)

@@ -9,7 +9,6 @@ class Main:
     ##############################################
     def detTestRnd(ts,num_trials=3):
         intTable = [[]]
-        index=[]
         intTable.append([])
         for _ in range(num_trials):
             global a
@@ -23,17 +22,14 @@ class Main:
             global e
             e = random.randint(1, 100)
                     # Rest of the code...
-            index=[a,b,c,d,e]
             print("-----------------------------------")  
             print("Testing for change... for",a,b,c,d,e)      
             for __ in range(2):
                 print("les valeurs a compter=",a,b,c,d,e)
+                ts.run()
                 if __ == 0:
-                    ts.run()
                     intTable[0] = [a,b,c,d,e]
                 else:  
-                    a,b,c,d,e=index
-                    ts.run()
                     intTable[1]=[a,b,c,d,e]
 
             if intTable[0] != intTable[1]:

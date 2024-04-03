@@ -85,6 +85,7 @@ class Tasksystem:
             self.runseqelementary(road)
 ##############################################
     def detTestRnd(self,num_trials=3):
+        sem = Semaphore(1)
         intTable = [[]]
         intTable.append([])
         for _ in range(num_trials):

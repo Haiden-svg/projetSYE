@@ -85,6 +85,7 @@ class Tasksystem:
             self.runseqelementary(road)
 ##############################################
     def detTestRnd(self,num_trials=3):
+        sem = Semaphore(1)
         intTable = [[]]
         intTable.append([])
         for _ in range(num_trials):
@@ -103,6 +104,7 @@ class Tasksystem:
             print("Testing for change... for",a,b,c,d,e)      
             for __ in range(2):
                 print("les valeurs a compter=",a,b,c,d,e)
+                sem.acquire()
                 self.run()
                 if __ == 0:
                     intTable[0] = [a,b,c,d,e]
