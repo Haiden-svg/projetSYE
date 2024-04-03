@@ -3,9 +3,7 @@ from threading import Semaphore, Thread
 import networkx as nx
 import matplotlib.pyplot as plt
 import time
-import random
-import io
-import sys
+
 ##############################################
 #args: tks: list of tasks, dico: dictionnary of dependencies
 class Tasksystem:
@@ -195,7 +193,7 @@ class Tasksystem:
         return succed, failed
     ##############################################
         # Cout du parallelisme
-    def parCost(self, runs=10):
+    def parCost(self, runs=2):
         # Mesurer le temps d'exécution parallèle
         count = 0
         par_times = []
@@ -229,72 +227,29 @@ class Tasksystem:
     #####################################
         # Test Randomisé de déterministe 
     
-
-    #methode 1
-
-    """
-    def detTestRnd(self, num_trials=10, num_executions=2):
-    # Identifier toutes les variables uniques impliquées
-        all_variables = set()
+        
+    def run_collect(self):
+        self.run()
+        results = {}# Initialiser un dictionnaire pour collecter les résultats des tâches
         for task in self.tasks:
-            all_variables.update(task.reads)
-            all_variables.update(task.writes)
+            results[task.name] = task.result
+        return results
 
-    # Définir une fonction pour générer un jeu de valeurs aléatoires pour les variables
-        def generate_random_values():
-            return {var: random.randint(1, 100) for var in all_variables}
 
-    # Fonction pour exécuter le système et collecter les résultats
-        def execute_and_collect():
-            self.run()
-            return {var: globals()[var] for var in all_variables if var in globals()}
 
-    # Tester avec num_trials jeux de données
-        for _ in range(num_trials):
-            dataset = generate_random_values()
+    def detTestRnd(self, num_exe=5):
+        all_results = []
+        for _ in range(num_exe):
+        # Exécuter les tâches et collecter leurs résultats
+            results = self.run_collect()  
+            all_results.append(results)
 
-        # Initialiser les variables globales
-            for var, value in dataset.items():
-                globals()[var] = value
-
-        # Exécuter le système num_executions fois et collecter les résultats
-            results = []
-            for _ in range(num_executions):
-            # Réinitialiser les variables avant chaque exécution
-                for var, value in dataset.items():
-                    globals()[var] = value
-
-                result = execute_and_collect()
-                results.append(result)
-
-        # Vérifier la cohérence des résultats
-            if not all(result == results[0] for result in results):
-                print("Non-déterminisme détecté avec le jeu de données :", dataset)
-                return False
-
-        print("Le système est déterministe pour tous les jeux de données testés.")
-        return True"""
+    # Vérifier si tous les ensembles de résultats sont identiques
+        identiques = all(all_results[0] == result for result in all_results)
     
+        if identiques:
+            print("Il est déterministe.")
+        else:
+            print("Il n'est pas déterministe.")
 
-
-    #methode 2
     
-    """
-    def detTestRnd(self, num_trials=10):
-        for _ in range(num_trials):
-            results = []
-            for _ in range(2):  # Deux exécutions pour comparer
-                # Rediriger la sortie standard pour capturer les impressions
-                capturedOutput = io.StringIO()
-                sys.stdout = capturedOutput
-                self.run()  # Exécute les tâches
-                sys.stdout = sys.__stdout__  # Restaurer la sortie standard
-                results.append(capturedOutput.getvalue())
-
-            # Vérifier si les résultats des deux exécutions sont identiques
-            if results[0] != results[1]:
-                print("Non-déterminisme détecté")
-                return False
-
-        print("Le système est déterministe.")
-        return True"""
