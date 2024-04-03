@@ -57,18 +57,15 @@ class Tasksystem:
                 return road
         return 0   
 ##############################################   
-    def runseqelementary(self,road,sem):
-        for task in road:
-            sem.acquire()
-            task.run()
-            sem.release()
-
         # Run the tasks in the tasksystem sequentially
     def runseq(self):
         roads = self.runRoad()
         sem=Semaphore(1)
         for road in roads:
-            self.runseqelementary(road,sem)
+            for task in road:
+                sem.acquire()
+                task.run()
+                sem.release()
 ############################################## 
     # def runseq(self):
     #     x=0
@@ -96,20 +93,17 @@ class Tasksystem:
 ##############################################
     # Run the tasks in the tasksystem with parallelism but elementary function
     def runsem(self, toeffectue):
-        sem = Semaphore(toeffectue.__len__())
-
-        def run_task(task):
-            task.run()
-            sem.release()
-
+        len = toeffectue.__len__()
+        sem = Semaphore(len)
         for task in toeffectue:
             sem.acquire()
-            Thread(target=run_task, args=(task,)).start()
+            Thread(target=task.run(), args=(task,)).start()
+            sem.release()
 ##############################################   
             # Run the tasks in the tasksystem with parallelism 
     def run(self):
 
-        tasksII=self.runRoad()
+        tasksII=self.getRoad()
         for road in tasksII:
             self.runsem(road)
 ###############################################   
@@ -174,18 +168,30 @@ class Tasksystem:
             taskEffectued.append(task)
         return succed, failed
     ##############################################
+    
+
+    def getRoad(self):
+        road = [[]]
+        linear = []
+        index = self.tasks.__len__()
+        for task in self.tasks:
+            if self.getDependeciesTS(task) == []:
+                road[0].append(task)
+                linear.append(task)
+                
+        for i in range(index):
+            road.append([])  # Add a new empty list for each iteration
+            for task in self.tasks:
+                if all(dep in linear for dep in self.getDependeciesTS(task)):
+                    road[i+1].append(task)
+                    linear.append(task)
+        return road
+    
+
+##############################################
         # Cout du parallelisme
     
     def parCost(self, runs=10):
-        # Mesurer le temps d'exécution parallèle
-        count = 0
-        par_times = []
-        while count < runs:
-            start = time.time()
-            self.run()
-            end = time.time()
-            par_times.append(end - start)
-            count += 1
         # Mesurer le temps d'exécution séquentiel
         count = 0
         seq_times = []
@@ -196,12 +202,17 @@ class Tasksystem:
             seq_times.append(end - start)  # Enregistrement du temps d'exécution
             count += 1  # Incrémentation du compteur
 
+        # Mesurer le temps d'exécution parallèle
+        count = 0
+        par_times = []
+        while count < runs:
+            start = time.time()
+            self.run()
+            end = time.time()
+            par_times.append(end - start)
+            count += 1
 
         # Calculer les moyennes
-        print("seq time",len(seq_times))
-        print("par time",len(par_times))
-        print("sum seq time",sum(seq_times))
-        print("sum par_time",sum(par_times))
         avg_seq_time = sum(seq_times) / len(seq_times)
         avg_par_time = sum(par_times) / len(par_times)
 
@@ -216,8 +227,3 @@ class Tasksystem:
             print("Le mode séquentiel est plus rapide que le mode parallèle.")
         else:
             print("Les modes séquentiel et parallèle ont des temps d'exécution égaux.")
-
-    def printRoad(self):
-        roads = self.runRoad()
-        for road in roads:
-            print([task.name for task in road])

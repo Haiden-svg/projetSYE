@@ -3,38 +3,27 @@ from Task import *
 from Tasksystem import *
 ##############################################
 class Main:
-    a,b,c,d,e=0,0,0,0,0 # Variables globales
+    global a,b,c,d,e
     ##############################################
     # Run functions #
     def run1():
-        global a
         a=1
-        return a
     def run2():
-        global b
         b=a+10
-        return b
     def run3():
-        global c
         c=b+5
-        return c
     def run4():
-        global d
         d=b+1
-        return d
     def run5():
-        global e
-        e=b+2
-
-        print(e, " = ", b, " + 2")
-        return e
+        e=c+2
+        print(e)
     ##############################################
     # Tasks #
     t1 = Task("t1", [], ["a"])
     t2 = Task("t2", ["a"], ["b"])
     t3 = Task("t3", ["b"], ["c"])
     t4 = Task("t4", ["b"], ["d"])
-    t5 = Task("t5", ["b"], ["e"])
+    t5 = Task("t5", ["c"], ["e"])
     ##############################################
     # Run functions association #
     t1.run = run1
@@ -48,9 +37,10 @@ class Main:
     #dico={"t1": [], "t2": [t1], "t3": [t2], "t4": [t2]}
     ts = Tasksystem([t1, t2, t3, t4, t5], {}) 
     ts.dico = ts.createDep()
-    ts.parCost()
-    ts.printRoad()
-    #test=ts.getRoad()
+    #ts.parCost()
+    
+
+    test=ts.getRoad()
     #test2=test[3][3]
     #print(test2.name)
     ##############################################
@@ -58,8 +48,8 @@ class Main:
     #road=ts.getDependencie(t4)
     #ts.run() # Run the tasks in the tasksystem with parallelism
     #ts.bernsteinIntoTasks() # Run the Bernstein test
-    ts.draw() # Draw the graph of the task system
-    #ts.runseq() # Run the tasks in the tasksystem sequentially
+    #ts.draw() # Draw the graph of the task system
+    ts.runseq() # Run the tasks in the tasksystem sequentially
     #ts.getDependencies() # Get the dependencies of the task system
     ##############################################
 

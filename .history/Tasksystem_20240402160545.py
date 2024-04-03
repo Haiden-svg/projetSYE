@@ -174,6 +174,7 @@ class Tasksystem:
             taskEffectued.append(task)
         return succed, failed
     ##############################################
+  ##############################################
         # Cout du parallelisme
     
     def parCost(self, runs=10):

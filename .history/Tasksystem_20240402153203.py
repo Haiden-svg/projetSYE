@@ -109,7 +109,7 @@ class Tasksystem:
             # Run the tasks in the tasksystem with parallelism 
     def run(self):
 
-        tasksII=self.runRoad()
+        tasksII=self.getRoad()
         for road in tasksII:
             self.runsem(road)
 ###############################################   
@@ -174,6 +174,27 @@ class Tasksystem:
             taskEffectued.append(task)
         return succed, failed
     ##############################################
+    
+
+    def getRoad(self):
+        road = [[]]
+        linear = []
+        index = self.tasks.__len__()
+        for task in self.tasks:
+            if self.getDependeciesTS(task) == []:
+                road[0].append(task)
+                linear.append(task)
+                
+        for i in range(index):
+            road.append([])  # Add a new empty list for each iteration
+            for task in self.tasks:
+                if all(dep in linear for dep in self.getDependeciesTS(task)):
+                    road[i+1].append(task)
+                    linear.append(task)
+        return road
+    
+
+##############################################
         # Cout du parallelisme
     
     def parCost(self, runs=10):
@@ -198,10 +219,6 @@ class Tasksystem:
 
 
         # Calculer les moyennes
-        print("seq time",len(seq_times))
-        print("par time",len(par_times))
-        print("sum seq time",sum(seq_times))
-        print("sum par_time",sum(par_times))
         avg_seq_time = sum(seq_times) / len(seq_times)
         avg_par_time = sum(par_times) / len(par_times)
 
@@ -216,8 +233,3 @@ class Tasksystem:
             print("Le mode séquentiel est plus rapide que le mode parallèle.")
         else:
             print("Les modes séquentiel et parallèle ont des temps d'exécution égaux.")
-
-    def printRoad(self):
-        roads = self.runRoad()
-        for road in roads:
-            print([task.name for task in road])

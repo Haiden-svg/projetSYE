@@ -174,6 +174,27 @@ class Tasksystem:
             taskEffectued.append(task)
         return succed, failed
     ##############################################
+    
+
+    def getRoad(self):
+        road = [[]]
+        linear = []
+        index = self.tasks.__len__()
+        for task in self.tasks:
+            if self.getDependeciesTS(task) == []:
+                road[0].append(task)
+                linear.append(task)
+                
+        for i in range(index):
+            road.append([])  # Add a new empty list for each iteration
+            for task in self.tasks:
+                if all(dep in linear for dep in self.getDependeciesTS(task)):
+                    road[i+1].append(task)
+                    linear.append(task)
+        return road
+    
+
+##############################################
         # Cout du parallelisme
     
     def parCost(self, runs=10):
