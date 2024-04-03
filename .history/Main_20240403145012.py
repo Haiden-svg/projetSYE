@@ -51,7 +51,7 @@ class Main:
     ts = Tasksystem([t1, t2, t3, t4, t5], {}) 
     ts.dico = ts.createDep()
     #ts.parCost()
-    ts.parCost()
+    ts.parCost2()
     ts.printRoad()
     #test=ts.getRoad()
     #test2=test[3][3]

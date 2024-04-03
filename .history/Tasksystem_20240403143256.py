@@ -195,32 +195,48 @@ class Tasksystem:
         return succed, failed
     ##############################################
         # Cout du parallelisme
+    
+        # Cout du parallelisme
     def parCost(self, runs=10):
         # Mesurer le temps d'exécution parallèle
         count = 0
         par_times = []
-        seq_times = []
-        dif_times = []
         while count < runs:
             start = time.time()
             self.run()
             end = time.time()
             par_times.append(end - start)
-            start = time.time()
-            self.runseq()
-            end = time.time()
-            seq_times.append(end - start)
-            dif_times.append(seq_times[count] - par_times[count])
             count += 1
-        # Calculer les moyennes
-        avg_dif_time = sum(dif_times) / len(dif_times)
-        print(f"Moyenne de la différence de temps d'exécution (sur {runs} runs): {avg_dif_time:.7f} secondes")
-        # Afficher les résultats
-        if avg_dif_time > 0:
-            print("Le mode parallèle est plus rapide que le mode séquentiel.")
-        if avg_dif_time < 0:
-            print("Le mode séquentiel est plus rapide que le mode parallèle.")
+        # Mesurer le temps d'exécution séquentiel
+        count = 0
+        seq_times = []
+        while count < runs:
+            start = time.time()
+            self.runseq()  
+            end = time.time()
+            seq_times.append(end - start)  # Enregistrement du temps d'exécution
+            count += 1  # Incrémentation du compteur
 
+
+        # Calculer les moyennes
+        print("seq time",len(seq_times))
+        print("par time",len(par_times))
+        print("sum seq time",sum(seq_times))
+        print("sum par_time",sum(par_times))
+        avg_seq_time = sum(seq_times) / len(seq_times)
+        avg_par_time = sum(par_times) / len(par_times)
+
+        # Afficher les résultats
+        print(f"Moyenne du temps d'exécution séquentielle (sur {runs} runs): {avg_seq_time:.7f} secondes")
+        print(f"Moyenne du temps d'exécution parallèle (sur {runs} runs): {avg_par_time:.7f} secondes")
+
+        # Comparer les temps d'exécution
+        if avg_seq_time > avg_par_time:
+            print("Le mode parallèle est plus rapide que le mode séquentiel.")
+        if avg_seq_time < avg_par_time:
+            print("Le mode séquentiel est plus rapide que le mode parallèle.")
+        else:
+            print("Les modes séquentiel et parallèle ont des temps d'exécution égaux.")
 
     def printRoad(self):
         roads = self.runRoad()

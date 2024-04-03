@@ -1,7 +1,6 @@
 #modules
 from Task import *
 from Tasksystem import *
-import time
 ##############################################
 class Main:
     a,b,c,d,e=0,0,0,0,0 # Variables globales
@@ -20,7 +19,6 @@ class Main:
         c=b+5
         return c
     def run4():
-        time.sleep(1)
         global d
         d=b+1
         return d
@@ -51,7 +49,7 @@ class Main:
     ts = Tasksystem([t1, t2, t3, t4, t5], {}) 
     ts.dico = ts.createDep()
     #ts.parCost()
-    ts.parCost()
+    ts.parCost2()
     ts.printRoad()
     #test=ts.getRoad()
     #test2=test[3][3]
