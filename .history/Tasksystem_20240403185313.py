@@ -223,5 +223,31 @@ class Tasksystem:
         for road in roads:
             print([task.name for task in road])
     #####################################
+        # Test Randomisé de déterministe 
+    
+        
+    def run_collect(self):
+        self.run()
+        results = {}# Initialiser un dictionnaire pour collecter les résultats des tâches
+        for task in self.tasks:
+            results[task.name] = task.result
+        return results
+
+
+
+    def detTestRnd(self, num_exe=5):
+        all_results = []
+        for _ in range(num_exe):
+        # Exécuter les tâches et collecter leurs résultats
+            results = self.run_collect()  
+            all_results.append(results)
+
+    # Vérifier si tous les ensembles de résultats sont identiques
+        identiques = all(all_results[0] == result for result in all_results)
+    
+        if identiques:
+            print("Il est déterministe.")
+        else:
+            print("Il n'est pas déterministe.")
 
     
