@@ -6,6 +6,7 @@ import time
 import random
 import io
 import sys
+import Main
 ##############################################
 #args: tks: list of tasks, dico: dictionnary of dependencies
 class Tasksystem:
@@ -86,7 +87,7 @@ class Tasksystem:
         for road in roads:
             self.runseqelementary(road)
 ##############################################
-    def detTestRnd(self,a,b,c,d,e, num_trials=10):
+    def detTestRnd(self, num_trials=10):
         intTable = [[]]
         print("Testing for determinism... for",a,b,c,d,e)
         for _ in range(num_trials):

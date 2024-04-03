@@ -86,9 +86,10 @@ class Tasksystem:
         for road in roads:
             self.runseqelementary(road)
 ##############################################
-    def detTestRnd(self,a,b,c,d,e, num_trials=10):
+    def detTestRnd(self, num_trials=10):
+        global a, b, c, d, e
         intTable = [[]]
-        print("Testing for determinism... for",a,b,c,d,e)
+
         for _ in range(num_trials):
             a = random.randint(1, 100)
             b = random.randint(1, 100)
@@ -96,7 +97,6 @@ class Tasksystem:
             d = random.randint(1, 100)
             e = random.randint(1, 100)
                     # Rest of the code...
-            print("Testing for change... for",a,b,c,d,e)        
             for __ in range(2):
                 self.run()
                 intTable.append([a, b, c, d, e])

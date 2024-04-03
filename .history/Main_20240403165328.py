@@ -4,13 +4,12 @@ from Tasksystem import *
 import time
 ##############################################
 class Main:
-    a,b,c,d,e=0,0,0,0,0
-    a1,b1,c1,d1,e1=0,0,0,0,0
+    a,b,c,d,e=0,0,0,0,0 # Variables globales
     ##############################################
     # Run functions #
     def run1():
         global a
-        a=+1
+        a=1
         return a
     def run2():
         global b
@@ -54,7 +53,7 @@ class Main:
     #ts.parCost()
     #ts.parCost()
     ts.printRoad()
-    ts.detTestRnd(a,b,c,d,e)
+    ts.detTestRnd()
     #test=ts.getRoad()
     #test2=test[3][3]
     #print(test2.name)

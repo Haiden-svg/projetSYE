@@ -4,13 +4,11 @@ from Tasksystem import *
 import time
 ##############################################
 class Main:
-    a,b,c,d,e=0,0,0,0,0
-    a1,b1,c1,d1,e1=0,0,0,0,0
+    a,b,c,d,e=0,0,0,0,0 # Variables globales
     ##############################################
     # Run functions #
-    def run1():
-        global a
-        a=+1
+    def run1(self):
+        self.a=+1
         return a
     def run2():
         global b

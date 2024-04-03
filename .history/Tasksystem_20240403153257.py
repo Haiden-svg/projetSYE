@@ -86,27 +86,15 @@ class Tasksystem:
         for road in roads:
             self.runseqelementary(road)
 ##############################################
-    def detTestRnd(self,a,b,c,d,e, num_trials=10):
-        intTable = [[]]
-        print("Testing for determinism... for",a,b,c,d,e)
+    def detTestRnd(self, num_trials=10):
         for _ in range(num_trials):
-            a = random.randint(1, 100)
-            b = random.randint(1, 100)
-            c = random.randint(1, 100)
-            d = random.randint(1, 100)
-            e = random.randint(1, 100)
-                    # Rest of the code...
-            print("Testing for change... for",a,b,c,d,e)        
-            for __ in range(2):
-                self.run()
-                intTable.append([a, b, c, d, e])
-            if intTable[1] != intTable[2]:
-                print("Non-determinism detected")
-                print(intTable[0] ,"and", intTable[1])
-                return False
-        print("The system is deterministic.")
-        return True
-
+            a=random.randint(1, 100)
+            b=random.randint(1, 100)
+            c=random.randint(1, 100)
+            d=random.randint(1, 100)
+            e=random.randint(1, 100)
+            
+            self.run()
 ##############################################
             
     # Run the tasks in the tasksystem with parallelism but elementary function

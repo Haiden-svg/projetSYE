@@ -4,21 +4,19 @@ from Tasksystem import *
 import time
 ##############################################
 class Main:
-    a,b,c,d,e=0,0,0,0,0
-    a1,b1,c1,d1,e1=0,0,0,0,0
+    a,b,c,d,e=0,0,0,0,0 # Variables globales
     ##############################################
     # Run functions #
     def run1():
         global a
-        a=+1
         return a
     def run2():
         global b
-        b=a+10
+        b=b+a
         return b
     def run3():
         global c
-        c=b+5
+        c=c+b+1
         return c
     def run4():
         time.sleep(1)
@@ -28,8 +26,6 @@ class Main:
     def run5():
         global e
         e=b+2
-
-        print(e, " = ", b, " + 2")
         return e
     ##############################################
     # Tasks #
@@ -52,9 +48,8 @@ class Main:
     ts = Tasksystem([t1, t2, t3, t4, t5], {}) 
     ts.dico = ts.createDep()
     #ts.parCost()
-    #ts.parCost()
+    ts.parCost()
     ts.printRoad()
-    ts.detTestRnd(a,b,c,d,e)
     #test=ts.getRoad()
     #test2=test[3][3]
     #print(test2.name)

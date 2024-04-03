@@ -55,6 +55,7 @@ class Main:
     #ts.parCost()
     ts.printRoad()
     ts.detTestRnd(a,b,c,d,e)
+    printest()
     #test=ts.getRoad()
     #test2=test[3][3]
     #print(test2.name)
