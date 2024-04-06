@@ -80,30 +80,14 @@ class Main:
     t4 = Task("t4", ["b"], ["d"])
     t5 = Task("t5", ["b"], ["e"])
     ##############################################
-    # Les fonctions run pour les tasks #
+    # Run functions association #
     t1.run = run1
     t2.run = run2
     t3.run = run3
     t4.run = run4
     t5.run = run5
     ##############################################
-    # Task system #
     ts = Tasksystem([t1, t2, t3, t4, t5], {}) 
     ts.dico = ts.createDep()
-    ##############################################
-    # Phase de test #
-
-
-    #ts.printRoad2( ts.getDependencie(t2)) #Print la route de la tâche t2
-    ts.printRoad() #Print toutes les routes
-    print("____________________________________________________")
-    detTestRnd(ts) #Test de déterminisme
-    print("____________________________________________________")
-    ts.run() #Exécuter le système en mode parallèlelisme maximal
-    print("____________________________________________________")
-    ts.runseq() #Exécuter le système en mode séquentiel
-    print("____________________________________________________")
-    ts.parCost() #Calculer le coût du parallélisme
-    print("____________________________________________________")
-    ts.draw() #Dessiner le graphe
-    print("____________________________________________________")
+    #ts.printRoad()
+    #detTestRnd(ts)

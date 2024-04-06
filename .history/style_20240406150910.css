@@ -1,0 +1,15 @@
+body {
+    background-color: #8dbb8e;
+    background-image: url('path/to/leaves.png');
+    background-repeat: repeat;
+    animation: leaf-fall 20s linear infinite;
+}
+
+@keyframes leaf-fall {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 0 100%;
+    }
+}

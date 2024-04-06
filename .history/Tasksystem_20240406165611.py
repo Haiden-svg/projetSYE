@@ -135,14 +135,16 @@ class Tasksystem:
                 x=1 # Sortir de la boucle
         
         return road 
-##############################################       
-    def checkdep(self, task): # Vérifier les dépendances d'une tâche
-        deplist = []  # Liste des tâches dépendantes
-        for task2 in self.tasks: # Parcourir les tâches 
-            if task2.name != task.name: # Si la tâche n'est pas la tâche actuelle
+##############################################    
+                # Bernstain test
+ ##############################################   
+    def checkdep(self, task):
+        deplist = []
+        for task2 in self.tasks:
+            if task2.name != task.name:
             
-                if any(read in task2.writes for read in task.reads): # Si la tâche lit des données écrites par une autre tâche
-                    deplist.append(task2)    # Ajouter la tâche à la liste des tâches dépendantes
+                if any(read in task2.writes for read in task.reads):
+                    deplist.append(task2)   
         return deplist  
 ##############################################
     def createDep(self):
@@ -151,31 +153,31 @@ class Tasksystem:
             dep[task.name] = self.checkdep(task)
         return dep
 ##############################################
+    # Function to verify bernstein between every task in a list
+##############################################    
     def bernsteinIntoEachOverTest(self, tasks):
-        succed = [] # Liste des tâches qui passent le test de Bernstein
-        tasksAlter = tasks.copy() # Copier la liste des tâches
-        taskEffectued = [] # Liste des tâches effectuées
-        failed = [] # Liste des tâches qui ne passent pas le test de Bernstein
-        for task in tasksAlter: # Parcourir les tâches
-            for task2 in (task for task in tasksAlter if task not in taskEffectued): # Parcourir les tâches
-                if task.name == task2.name: # Si les tâches sont identiques
+        succed = []
+        tasksAlter = tasks.copy()
+        taskEffectued = []
+        failed = []
+        for task in tasksAlter:
+            for task2 in (task for task in tasksAlter if task not in taskEffectued):
+                if task.name == task2.name:
                     continue
                 if task.bernstein(task2):
-                    succed.append(task) # Ajouter la tâche à la liste des tâches qui passent le test de Bernstein
+                    succed.append(task)
                 else:
-                    failed.append(task)  # Ajouter la tâche à la liste des tâches qui ne passent pas le test de Bernstein
-            taskEffectued.append(task) # Ajouter la tâche à la liste des tâches effectuées
+                    failed.append(task) 
+            taskEffectued.append(task)
         return succed, failed
-##############################################
+    ##############################################
         # Cout du parallelisme
     def parCost(self, runs=2):
         # Mesurer le temps d'exécution parallèle
         count = 0
-        # Créer des listes pour stocker les temps d'exécution
         par_times = []
         seq_times = []
         dif_times = []
-        # Exécuter le système en mode parallèle et séquentiel
         while count < runs:
             start = time.time()
             self.run()
@@ -195,19 +197,16 @@ class Tasksystem:
             print("Le mode parallèle est plus rapide que le mode séquentiel.")
         if avg_dif_time < 0:
             print("Le mode séquentiel est plus rapide que le mode parallèle.")
-##############################################
-
-# Print #
 
 
-    def printRoad(self): # Afficher les routes des tâches
-        roads = self.runRoad() # Obtenir les routes
+    def printRoad(self):
+        roads = self.runRoad()
         for road in roads:
-            print([task.name for task in road]) # Afficher les noms des tâches dans chaque route
+            print([task.name for task in road])
 
-    def printRoad2(self, roads): # Afficher les routes des tâches
+    def printRoad2(self, roads):
         for road in roads:
-            print([task.name for task in road]) # Afficher les noms des tâches dans chaque route
-#####################################
+            print([task.name for task in road])
+    #####################################
 
     

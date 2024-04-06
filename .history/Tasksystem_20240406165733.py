@@ -166,7 +166,7 @@ class Tasksystem:
                     failed.append(task)  # Ajouter la tâche à la liste des tâches qui ne passent pas le test de Bernstein
             taskEffectued.append(task) # Ajouter la tâche à la liste des tâches effectuées
         return succed, failed
-##############################################
+    ##############################################
         # Cout du parallelisme
     def parCost(self, runs=2):
         # Mesurer le temps d'exécution parallèle
@@ -195,19 +195,16 @@ class Tasksystem:
             print("Le mode parallèle est plus rapide que le mode séquentiel.")
         if avg_dif_time < 0:
             print("Le mode séquentiel est plus rapide que le mode parallèle.")
-##############################################
-
-# Print #
 
 
-    def printRoad(self): # Afficher les routes des tâches
-        roads = self.runRoad() # Obtenir les routes
+    def printRoad(self):
+        roads = self.runRoad()
         for road in roads:
-            print([task.name for task in road]) # Afficher les noms des tâches dans chaque route
+            print([task.name for task in road])
 
-    def printRoad2(self, roads): # Afficher les routes des tâches
+    def printRoad2(self, roads):
         for road in roads:
-            print([task.name for task in road]) # Afficher les noms des tâches dans chaque route
-#####################################
+            print([task.name for task in road])
+    #####################################
 
     

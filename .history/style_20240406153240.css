@@ -1,0 +1,39 @@
+/* CANVAS/NODE SETTINGS */
+.canvas {
+    position: relative;
+  }
+  .canvas::before {
+    --image-width: 2000px;
+    --image-height: 1665px;
+    --image-scale: 25%;
+    --background-scale: 400%;  
+    content: "";
+    width: var(--background-scale);
+    height: var(--background-scale);
+    background: url("URL_DE_VOTRE_IMAGE_FORET");
+    position: absolute;
+    top: calc(-1 * var(--background-scale)/2 + 50%);
+    left: calc(-1 * var(--background-scale)/2 + 50%);
+    background-size: var(--image-scale);
+  }
+  
+/* Animation de feuilles */
+@keyframes leaf-fall {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100vh); }
+  }
+  
+  .leaf {
+    position: absolute;
+    top: 0;
+    animation: leaf-fall 5s linear infinite;
+    /* Ajoutez ici le style de vos feuilles */
+    width: 50px;
+    height: 50px;
+    background: url("URL_DE_VOTRE_IMAGE_FEUILLE") no-repeat;
+    background-size: cover;
+  }
+  
+  .cm-scroller {
+    padding: 0 !important;
+  }

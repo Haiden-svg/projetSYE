@@ -33,4 +33,4 @@ class Task:
         if set(self.writes) & set(other_task.reads) or set(other_task.writes) & set(self.reads):
             return False
         
-        return True #Si les deux conditions précédentes ne sont pas remplies, les tâches sont Bernstein-compatibles
+        return True

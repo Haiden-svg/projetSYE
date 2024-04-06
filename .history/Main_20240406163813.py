@@ -12,7 +12,6 @@ class Main:
         index=[]
         intTable.append([]) #Creation des tableaux a utiliser pour la comparaison
 
-        #mise en place des variables globales randomiséess
         global a
         a = random.randint(1, 100)
         global b
@@ -23,30 +22,24 @@ class Main:
         d = random.randint(1, 100)
         global e
         e = random.randint(1, 100)
-
                    
         index=[a,b,c,d,e]   
-        print("-----------------------------------")
-        for __ in range(2): #boucle pour les deux tests de déterminisme
-
+        for __ in range(2):
             print("les valeurs a compter=",a,b,c,d,e)
-
             if __ == 0:
                 ts.run()
                 intTable[0] = [a,b,c,d,e]
-
             else:  
                 a,b,c,d,e=index
                 ts.run()
                 intTable[1]=[a,b,c,d,e]
 
         if intTable[0] != intTable[1]:
-            print("Non-determinism detected") #Si les deux tableaux sont différents, le système est non-déterministe
+            print("Non-determinism detected")
             print(intTable[0] ,"and", intTable[1])
             return False
-        
         print("Compare",intTable[0] ,"and", intTable[1])
-        print("The system is deterministic.") #Si les deux tableaux sont identiques, le système est déterministe
+        print("The system is deterministic.")
         return True
 
     ##############################################
@@ -80,30 +73,14 @@ class Main:
     t4 = Task("t4", ["b"], ["d"])
     t5 = Task("t5", ["b"], ["e"])
     ##############################################
-    # Les fonctions run pour les tasks #
+    # Run functions association #
     t1.run = run1
     t2.run = run2
     t3.run = run3
     t4.run = run4
     t5.run = run5
     ##############################################
-    # Task system #
     ts = Tasksystem([t1, t2, t3, t4, t5], {}) 
     ts.dico = ts.createDep()
-    ##############################################
-    # Phase de test #
-
-
-    #ts.printRoad2( ts.getDependencie(t2)) #Print la route de la tâche t2
-    ts.printRoad() #Print toutes les routes
-    print("____________________________________________________")
-    detTestRnd(ts) #Test de déterminisme
-    print("____________________________________________________")
-    ts.run() #Exécuter le système en mode parallèlelisme maximal
-    print("____________________________________________________")
-    ts.runseq() #Exécuter le système en mode séquentiel
-    print("____________________________________________________")
-    ts.parCost() #Calculer le coût du parallélisme
-    print("____________________________________________________")
-    ts.draw() #Dessiner le graphe
-    print("____________________________________________________")
+    #ts.printRoad()
+    #detTestRnd(ts)

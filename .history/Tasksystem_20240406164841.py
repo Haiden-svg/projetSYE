@@ -27,7 +27,8 @@ class Tasksystem:
         if len(task_names) != len(set(task_names)): # Check if the total number of names matches the number of unique names
             raise ValueError("Error: Task names must be unique.")
         
-##############################################      
+##############################################
+        
         # Verifier les noms des tâches dans les dépendances
     def verifyTaskNameDep(self):
         task_names = set()
@@ -38,8 +39,10 @@ class Tasksystem:
                 raise ValueError(f"Erreur : La tâche '{task_name}' mentionnée dans les dépendances n'existe pas.")
             for dep in deps:
                 if dep not in task_names:
-                    raise ValueError(f"Erreur : La tâche dépendante '{dep}' de '{task_name}' n'existe pas dans la liste des tâches.")              
-##############################################              
+                    raise ValueError(f"Erreur : La tâche dépendante '{dep}' de '{task_name}' n'existe pas dans la liste des tâches.")
+                
+##############################################
+                
         # Dessiner le graphe des tâches
     def draw(self):
         G = nx.DiGraph()
@@ -58,10 +61,13 @@ class Tasksystem:
 
         nx.draw(G, with_labels=True, node_color='lightblue', edge_color='black', font_weight='bold')
         plt.show()
-##############################################     
+
+##############################################
+        
         # Liste des dépendances d'une tâche donnée
     def getDependeciesTS(self,task):
         return self.dico[task.name]      
+
 ##############################################  
     def getDependencie(self,task): # Donne la route avant la tâche
         dependances = [[]]
@@ -75,74 +81,114 @@ class Tasksystem:
             if task in road:
                 dependances.remove([]) # Supprimer la liste vide
                 return dependances
-        return 0      
+        return 0   
+    
 ##############################################   
-    def runseqelementary(self,road): # Lance sequentiellement les tâches dans une route
+    def runseqelementary(self,road):
 
         for task in road:
             task.run()
 ##############################################
-    def runseq(self):               # Lance sequentiellement les tâches dans le système
+    def runseq(self):
         roads = self.runRoad()
         for road in roads:
-
+            
             self.runseqelementary(road)
 ##############################################
-    def runsem(self, toeffectue): # Lance les tâches dans une route avec parallélisme
-        sem = Semaphore(toeffectue.__len__()) # Créer un sémaphore avec le nombre de tâches à effectuer
+    def detTestRnd(self,num_trials=3):
+        intTable = [[]]
+        intTable.append([])
+        for _ in range(num_trials):
+            global a
+            a = random.randint(1, 100)
+            global b
+            b = random.randint(1, 100)
+            global c
+            c = random.randint(1, 100)
+            global d
+            d = random.randint(1, 100)
+            global e
+            e = random.randint(1, 100)
+                    # Rest of the code...
+            print("-----------------------------------")  
+            print("Testing for change... for",a,b,c,d,e)      
+            for __ in range(2):
+                print("les valeurs a compter=",a,b,c,d,e)
+                self.run()
+                if __ == 0:
+                    intTable[0] = [a,b,c,d,e]
+                else:  
+                    intTable[1]=[a,b,c,d,e]
 
-        def run_task(task): # Fonction pour exécuter une tâche
-            task.run() # Exécuter la tâche
-            sem.release() # Libérer le sémaphore
+            if intTable[0] != intTable[1]:
+                print("Non-determinism detected")
+                print(intTable[0] ,"and", intTable[1])
+                return False
+            print("Compare",intTable[0] ,"and", intTable[1])
+        print("The system is deterministic.")
+        print("-----------------------------------")
+        return True
 
-        for task in toeffectue: # Parcourir les tâches à effectuer
-            sem.acquire() # Acquérir le sémaphore
-            Thread(target=run_task, args=(task,)).start() # Démarrer un thread pour exécuter la tâche
+##############################################
+            
+    # Run the tasks in the tasksystem with parallelism but elementary function
+    def runsem(self, toeffectue):
+        sem = Semaphore(toeffectue.__len__())
+
+        def run_task(task):
+            task.run()
+            sem.release()
+
+        for task in toeffectue:
+            sem.acquire()
+            Thread(target=run_task, args=(task,)).start()
 ##############################################   
-    def run(self): # Lance les tâches dans le système avec parallélisme
+            
+            # Run the tasks in the tasksystem with parallelism 
+    def run(self):
 
-        tasksII=self.runRoad() # Obtenir les routes
-        for road in tasksII: # Parcourir les routes
+        tasksII=self.runRoad()
+        for road in tasksII:
 
-            self.runsem(road) # Exécuter les tâches dans la route avec parallélisme
-###############################################             
-    def runRoad(self): # Obtenir les routes des tâches
+            self.runsem(road)
+###############################################   
+                
+    def runRoad(self):
         x = 0
         y= 0
         road = [[]]
         effectued = []
-        tasks = self.tasks.copy()  # Copier la liste des tâches
-        
+        tasks = self.tasks.copy()  # Create a copy of the tasks list
         while x==0:
-            toeffectue = [] # Liste des tâches à effectuer
-            road.append([])     # Ajouter une nouvelle liste vide pour chaque itération pour éviter les erreurs
-            
-            for task in tasks: # Parcourir les tâches
-                dependencies = self.getDependeciesTS(task) # Obtenir les dépendances de la tâche
-                
-                if all(dep in effectued for dep in dependencies) or dependencies == []: # Si toutes les dépendances sont effectuées
-                    toeffectue.append(task) # Ajouter la tâche à la liste des tâches à effectuer
-           
+            toeffectue = []
+            road.append([])  # Add a new empty list for each iteration
+            for task in tasks:
+                dependencies = self.getDependeciesTS(task)
+                if all(dep in effectued for dep in dependencies) or dependencies == []:
+                    toeffectue.append(task)
             if self.bernsteinIntoEachOverTest(toeffectue):
-                road[y].extend(toeffectue) # Ajouter les tâches à la route
-            y+=1  # Incrémenter le compteur de route parallèle
-             
+                #print("Bernstein test passed")
+                road[y].extend(toeffectue)
+            #road = self.addToRoad(road, toeffectue, y)
+            y+=1
             for task in toeffectue:
-                effectued.append(task) # Ajouter la tâche à la liste des tâches effectuées
-                tasks.remove(task) # Supprimer la tâche de la liste des tâches à effectuer
+                effectued.append(task)
+                tasks.remove(task)  # Remove the task from the tasks list
+            if all(task in effectued for task in self.tasks):
+                x=1
+        return road
+    
+##############################################    
+                # Bernstain test
+ ##############################################   
+    def checkdep(self, task):
+        readlist = task.reads
+        deplist = []
+        for task2 in self.tasks:
+            if task2.name != task.name:
             
-            if all(task in effectued for task in self.tasks): # Si toutes les tâches sont effectuées
-                x=1 # Sortir de la boucle
-        
-        return road 
-##############################################       
-    def checkdep(self, task): # Vérifier les dépendances d'une tâche
-        deplist = []  # Liste des tâches dépendantes
-        for task2 in self.tasks: # Parcourir les tâches 
-            if task2.name != task.name: # Si la tâche n'est pas la tâche actuelle
-            
-                if any(read in task2.writes for read in task.reads): # Si la tâche lit des données écrites par une autre tâche
-                    deplist.append(task2)    # Ajouter la tâche à la liste des tâches dépendantes
+                if any(read in task2.writes for read in task.reads):
+                    deplist.append(task2)   
         return deplist  
 ##############################################
     def createDep(self):
@@ -151,31 +197,31 @@ class Tasksystem:
             dep[task.name] = self.checkdep(task)
         return dep
 ##############################################
+    # Function to verify bernstein between every task in a list
+##############################################    
     def bernsteinIntoEachOverTest(self, tasks):
-        succed = [] # Liste des tâches qui passent le test de Bernstein
-        tasksAlter = tasks.copy() # Copier la liste des tâches
-        taskEffectued = [] # Liste des tâches effectuées
-        failed = [] # Liste des tâches qui ne passent pas le test de Bernstein
-        for task in tasksAlter: # Parcourir les tâches
-            for task2 in (task for task in tasksAlter if task not in taskEffectued): # Parcourir les tâches
-                if task.name == task2.name: # Si les tâches sont identiques
+        succed = []
+        tasksAlter = tasks.copy()
+        taskEffectued = []
+        failed = []
+        for task in tasksAlter:
+            for task2 in (task for task in tasksAlter if task not in taskEffectued):
+                if task.name == task2.name:
                     continue
                 if task.bernstein(task2):
-                    succed.append(task) # Ajouter la tâche à la liste des tâches qui passent le test de Bernstein
+                    succed.append(task)
                 else:
-                    failed.append(task)  # Ajouter la tâche à la liste des tâches qui ne passent pas le test de Bernstein
-            taskEffectued.append(task) # Ajouter la tâche à la liste des tâches effectuées
+                    failed.append(task) 
+            taskEffectued.append(task)
         return succed, failed
-##############################################
+    ##############################################
         # Cout du parallelisme
     def parCost(self, runs=2):
         # Mesurer le temps d'exécution parallèle
         count = 0
-        # Créer des listes pour stocker les temps d'exécution
         par_times = []
         seq_times = []
         dif_times = []
-        # Exécuter le système en mode parallèle et séquentiel
         while count < runs:
             start = time.time()
             self.run()
@@ -195,19 +241,16 @@ class Tasksystem:
             print("Le mode parallèle est plus rapide que le mode séquentiel.")
         if avg_dif_time < 0:
             print("Le mode séquentiel est plus rapide que le mode parallèle.")
-##############################################
-
-# Print #
 
 
-    def printRoad(self): # Afficher les routes des tâches
-        roads = self.runRoad() # Obtenir les routes
+    def printRoad(self):
+        roads = self.runRoad()
         for road in roads:
-            print([task.name for task in road]) # Afficher les noms des tâches dans chaque route
+            print([task.name for task in road])
 
-    def printRoad2(self, roads): # Afficher les routes des tâches
+    def printRoad2(self, roads):
         for road in roads:
-            print([task.name for task in road]) # Afficher les noms des tâches dans chaque route
-#####################################
+            print([task.name for task in road])
+    #####################################
 
     

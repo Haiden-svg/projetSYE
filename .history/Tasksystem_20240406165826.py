@@ -196,10 +196,6 @@ class Tasksystem:
         if avg_dif_time < 0:
             print("Le mode séquentiel est plus rapide que le mode parallèle.")
 ##############################################
-
-# Print #
-
-
     def printRoad(self): # Afficher les routes des tâches
         roads = self.runRoad() # Obtenir les routes
         for road in roads:
@@ -208,6 +204,6 @@ class Tasksystem:
     def printRoad2(self, roads): # Afficher les routes des tâches
         for road in roads:
             print([task.name for task in road]) # Afficher les noms des tâches dans chaque route
-#####################################
+    #####################################
 
     
