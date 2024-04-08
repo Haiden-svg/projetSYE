@@ -25,11 +25,9 @@ class Task:
 ##############################################        
     def bernstein(self, other_task): #Vérifie si deux tâches sont Bernstein-compatibles
     # Lecture-écriture exclusives
-        
         if set(self.writes) & set(other_task.writes):
             return False
         # Écriture-écriture exclusives
-        
         if set(self.writes) & set(other_task.reads) or set(other_task.writes) & set(self.reads):
             return False
         

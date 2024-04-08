@@ -92,11 +92,11 @@ class Tasksystem:
         sem = Semaphore(toeffectue.__len__()) # Créer un sémaphore avec le nombre de tâches à effectuer
 
         def run_task(task): # Fonction pour exécuter une tâche
-            task.run() # Exécuter la tâche
-            sem.release() # Libérer le sémaphore
+            task.run() 
+            sem.release() 
 
         for task in toeffectue: # Parcourir les tâches à effectuer
-            sem.acquire() # Acquérir le sémaphore
+            sem.acquire() 
             Thread(target=run_task, args=(task,)).start() # Démarrer un thread pour exécuter la tâche
 ##############################################   
     def run(self): # Lance les tâches dans le système avec parallélisme
@@ -117,19 +117,19 @@ class Tasksystem:
             toeffectue = [] # Liste des tâches à effectuer
             road.append([])     # Ajouter une nouvelle liste vide pour chaque itération pour éviter les erreurs
             
-            for task in tasks: # Parcourir les tâches
+            for task in tasks: 
                 dependencies = self.getDependeciesTS(task) # Obtenir les dépendances de la tâche
                 
                 if all(dep in effectued for dep in dependencies) or dependencies == []: # Si toutes les dépendances sont effectuées
-                    toeffectue.append(task) # Ajouter la tâche à la liste des tâches à effectuer
+                    toeffectue.append(task) 
            
             if self.bernsteinIntoEachOverTest(toeffectue):
                 road[y].extend(toeffectue) # Ajouter les tâches à la route
             y+=1  # Incrémenter le compteur de route parallèle
              
             for task in toeffectue:
-                effectued.append(task) # Ajouter la tâche à la liste des tâches effectuées
-                tasks.remove(task) # Supprimer la tâche de la liste des tâches à effectuer
+                effectued.append(task) 
+                tasks.remove(task)
             
             if all(task in effectued for task in self.tasks): # Si toutes les tâches sont effectuées
                 x=1 # Sortir de la boucle
@@ -138,11 +138,11 @@ class Tasksystem:
 ##############################################       
     def checkdep(self, task): # Vérifier les dépendances d'une tâche
         deplist = []  # Liste des tâches dépendantes
-        for task2 in self.tasks: # Parcourir les tâches 
+        for task2 in self.tasks: 
             if task2.name != task.name: # Si la tâche n'est pas la tâche actuelle
             
                 if any(read in task2.writes for read in task.reads): # Si la tâche lit des données écrites par une autre tâche
-                    deplist.append(task2)    # Ajouter la tâche à la liste des tâches dépendantes
+                    deplist.append(task2)
         return deplist  
 ##############################################
     def createDep(self):
@@ -156,9 +156,9 @@ class Tasksystem:
         tasksAlter = tasks.copy() # Copier la liste des tâches
         taskEffectued = [] # Liste des tâches effectuées
         failed = [] # Liste des tâches qui ne passent pas le test de Bernstein
-        for task in tasksAlter: # Parcourir les tâches
-            for task2 in (task for task in tasksAlter if task not in taskEffectued): # Parcourir les tâches
-                if task.name == task2.name: # Si les tâches sont identiques
+        for task in tasksAlter: 
+            for task2 in (task for task in tasksAlter if task not in taskEffectued):
+                if task.name == task2.name: 
                     continue
                 if task.bernstein(task2):
                     succed.append(task) # Ajouter la tâche à la liste des tâches qui passent le test de Bernstein
@@ -207,7 +207,7 @@ class Tasksystem:
 
     def printRoad2(self, roads): # Afficher les routes des tâches
         for road in roads:
-            print([task.name for task in road]) # Afficher les noms des tâches dans chaque route
+            print([task.name for task in road])
 #####################################
 
     

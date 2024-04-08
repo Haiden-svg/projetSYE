@@ -95,15 +95,15 @@ class Main:
 
 
     #ts.printRoad2( ts.getDependencie(t2)) #Print la route de la tâche t2
-    ts.printRoad() #Print toutes les routes
+    ts.printRoad() 
     print("____________________________________________________")
-    detTestRnd(ts) #Test de déterminisme
+    detTestRnd(ts) 
     print("____________________________________________________")
-    ts.run() #Exécuter le système en mode parallèlelisme maximal
+    ts.run() 
     print("____________________________________________________")
-    ts.runseq() #Exécuter le système en mode séquentiel
+    ts.runseq() 
     print("____________________________________________________")
-    ts.parCost() #Calculer le coût du parallélisme
+    ts.parCost() 
     print("____________________________________________________")
-    ts.draw() #Dessiner le graphe
+    ts.draw() 
     print("____________________________________________________")
